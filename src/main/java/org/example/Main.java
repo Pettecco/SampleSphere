@@ -33,7 +33,7 @@ public class Main {
             System.out.println("3. Cadastrar um album");
             System.out.println("4. Listar albuns cadastrados");
             System.out.println("5. Listar artistas cadastrados");
-            System.out.println("6. Avaliar um album");
+            System.out.println("6. Avaliar/Reavaliar um album");
             System.out.println("7. Remover um album");
             System.out.println("8. Listar albuns avaliados");
             System.out.println("0. Sair");
@@ -67,15 +67,11 @@ public class Main {
                     artistaDAO.insertArtista(novoArtista);
                     break;
                 case 3:
-                    System.out.println("Digite o nome do album:");
                     entrada.nextLine();
+                    System.out.println("Digite o nome do album:");
                     String nomeAlbum = entrada.nextLine();
                     System.out.println("Digite o genero musical do album:");
                     String generoMusical = entrada.nextLine();
-                    System.out.println("Digite sua faixa favorita:");
-                    String faixaFavorita = entrada.nextLine();
-                    System.out.println("Digite uma nota para o album (0.0 a 10.0):");
-                    double nota = entrada.nextFloat();
 
                     System.out.println("Qual artista fez o album? (Selecione pelo numero)");
                     ArrayList<Artista> artistasCadastrados = artistaDAO.selectArtista();
@@ -83,12 +79,30 @@ public class Main {
                         System.out.println(artista.getIdArtista() + " - " + artista.getNome());
                     }
                     int artistaResposavel = entrada.nextInt();
-
-                    Album novoAlbum = new Album(nomeAlbum, nota, generoMusical,faixaFavorita, artistaResposavel);
+                    Album novoAlbum = new Album(nomeAlbum, generoMusical,artistaResposavel);
                     albumDAO.insertAlbum(novoAlbum);
                     break;
+                case 4:
+                    System.out.println("Albuns cadastrados:");
+                    System.out.println("----------------------------------");
+                    ArrayList<Album> albunsCadastrados = albumDAO.selectAlbum();
+                    for(Album album: albunsCadastrados){
+                        System.out.println("Nome: " + album.getNome());
+                        System.out.println("Genero musical: " + album.getGeneroMusical());
+                        System.out.println("Feito por: " + album.getNomeArtista());
+                        System.out.println("----------------------------------");
+                    }
+                    break;
+                case 5:
+                    System.out.println("Artistas cadastrados:");
+                    System.out.println("----------------------------------");
+                    ArrayList<Artista> artistaArrayList = artistaDAO.selectArtista();
+                    for (Artista artista: artistaArrayList){
+                        System.out.println("Nome: " + artista.getNome());
+                        System.out.println("Qnt de albuns cadastrados: " + artista.getQntDeAlbuns());
+                        System.out.println("----------------------------------");
+                    }
                 default:
-
             }
         }
 

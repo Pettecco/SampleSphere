@@ -3,28 +3,30 @@ package Model;
 public class Album {
     private int idAlbum;
     private final String nome;
-    private final double nota;
     private final String generoMusical;
-    private final String faixaFavorita;
     private final int Artista_idArtista;
+    private String nomeArtista;
 
-
-    public Album(String nome, double nota, String generoMusical, String faixaFavorita, int artista_idArtista) {
+    public Album(String nome, String generoMusical, int artista_idArtista) {
         this.nome = nome;
-        this.nota = nota;
         this.generoMusical = generoMusical;
-        this.faixaFavorita = faixaFavorita;
         this.Artista_idArtista = artista_idArtista;
     }
 
     // sobrecarga de construtor para conseguir pegar id do banco de dados
-    public Album(int idAlbum, String nome, double nota, String generoMusical, String faixaFavorita, int artista_idArtista) {
+    public Album(int idAlbum, String nome, String generoMusical, int artista_idArtista) {
         this.idAlbum = idAlbum;
         this.nome = nome;
-        this.nota = nota;
         this.generoMusical = generoMusical;
-        this.faixaFavorita = faixaFavorita;
         Artista_idArtista = artista_idArtista;
+    }
+
+    public String getNomeArtista() {
+        return nomeArtista;
+    }
+
+    public void setNomeArtista(String nomeArtista) {
+        this.nomeArtista = nomeArtista;
     }
 
     public int getIdAlbum() {
@@ -35,16 +37,8 @@ public class Album {
         return nome;
     }
 
-    public double getNota() {
-        return nota;
-    }
-
     public String getGeneroMusical() {
         return generoMusical;
-    }
-
-    public String getFaixaFavorita() {
-        return faixaFavorita;
     }
 
     public int getArtista_idArtista() {

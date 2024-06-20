@@ -16,14 +16,12 @@ public class AlbumDAO extends ConnectionDAO{
 
         connectToDB();
 
-        String sql = "INSERT INTO Album (nome, nota, generoMusical, faixaFavorita, Artista_idArtista) values(?,?,?,?,?)";
+        String sql = "INSERT INTO Album (nome, generoMusical, Artista_idArtista) values(?,?,?)";
         try {
             pst = con.prepareStatement(sql);
             pst.setString(1, album.getNome());
-            pst.setDouble(2, album.getNota());
-            pst.setString(3, album.getGeneroMusical());
-            pst.setString(4, album.getFaixaFavorita());
-            pst.setInt(5, album.getArtista_idArtista());
+            pst.setString(2, album.getGeneroMusical());
+            pst.setInt(3, album.getArtista_idArtista());
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
@@ -44,7 +42,9 @@ public class AlbumDAO extends ConnectionDAO{
     public ArrayList<Album> selectAlbum() {
         ArrayList<Album> albuns = new ArrayList<>();
         connectToDB();
-        String sql = "SELECT * FROM Album";
+        String sql = "SELECT a.idAlbum, a.Nome, a.GeneroMusical, a.Artista_idArtista, ar.nome AS NomeArtista " +
+                "FROM Album a " +
+                "JOIN Artista ar ON a.Artista_idArtista = ar.idArtista";
 
         try {
             st = con.createStatement();
@@ -54,16 +54,9 @@ public class AlbumDAO extends ConnectionDAO{
 
             while (rs.next()) {
 
-                Album AlbunsAux = new Album(rs.getInt("idAlbum"),rs.getString("Nome"), rs.getDouble("Nota"), rs.getString("GeneroMusical"), rs.getString("FaixaFavorita"), rs.getInt("Artista_idArtista"));
-
-                System.out.println("Id do Album = " + AlbunsAux.getIdAlbum());
-                System.out.println("Nome do Album = " + AlbunsAux.getNome());
-                System.out.println("Nota do Album = " + AlbunsAux.getNota());
-                System.out.println("Genero musical do Album = " + AlbunsAux.getGeneroMusical());
-                System.out.println("Faixa favorita do Album = " + AlbunsAux.getFaixaFavorita());
-                System.out.println("idArtista = " + AlbunsAux.getArtista_idArtista());
-                System.out.println("--------------------------------");
-
+                Album AlbunsAux = new Album(rs.getInt("idAlbum"), rs.getString("Nome"), rs.getString("GeneroMusical"), rs.getInt("Artista_idArtista"));
+                String nomeArtista = rs.getString("NomeArtista");  rs.getInt("Artista_idArtista");
+                AlbunsAux.setNomeArtista(nomeArtista);
                 albuns.add(AlbunsAux);
             }
             sucesso = true;
@@ -80,7 +73,4 @@ public class AlbumDAO extends ConnectionDAO{
         }
         return albuns;
     }
-
-
 }
-
