@@ -2,13 +2,12 @@ package DAO;
 
 import Model.Perfil;
 
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 
 public class PerfilDAO extends ConnectionDAO{
 
-    //DAO - Data Access Object
     boolean sucesso = false; //Para saber se funcionou
 
     //INSERT
@@ -81,7 +80,6 @@ public class PerfilDAO extends ConnectionDAO{
         }
         return false;
     }
-
 
     public ArrayList<Perfil> selectPerfil() {
         ArrayList<Perfil> perfis = new ArrayList<>();
