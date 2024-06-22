@@ -7,6 +7,7 @@ public class Album {
     private int Artista_idArtista;
     private double nota;
     private String nomeArtista;
+    private String faixaFavorita;
 
     public Album(String nome, String generoMusical, int artista_idArtista) {
         this.nome = nome;
@@ -22,11 +23,12 @@ public class Album {
         Artista_idArtista = artista_idArtista;
     }
 
-    public Album(int idAlbum, String nome, String generoMusical, double nota) {
+    public Album(int idAlbum, String nome, String generoMusical, double nota, String faixaFavorita) {
         this.idAlbum = idAlbum;
         this.nome = nome;
         this.generoMusical = generoMusical;
         this.nota = nota;
+        this.faixaFavorita = faixaFavorita;
     }
 
     public String getNomeArtista() {
@@ -55,5 +57,9 @@ public class Album {
 
     public double getNota() {
         return nota;
+    }
+
+    public String getFaixaFavorita() {
+        return faixaFavorita;
     }
 }

@@ -28,7 +28,7 @@ public class Perfil_avalia_AlbumDAO extends ConnectionDAO{
         return sucesso;
     }
 
-    public boolean avaliarAlbum(String username, int idAlbum, double nota) throws NotaInvalidaException, UsernameNotFoundException {
+    public boolean avaliarAlbum(String username, int idAlbum, double nota, String faixaFavorita) throws NotaInvalidaException, UsernameNotFoundException {
 
         if (nota < 0 || nota > 10) {
             throw new NotaInvalidaException("A nota deve estar entre 0 e 10.");
@@ -40,17 +40,18 @@ public class Perfil_avalia_AlbumDAO extends ConnectionDAO{
             throw new UsernameNotFoundException("Username não encontrado");
         }
 
-        String sql = "INSERT INTO Perfil_avalia_Album (Perfil_username, Album_idAlbum, nota) " +
-                "VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE nota = VALUES(nota)";
+        String sql = "INSERT INTO Perfil_avalia_Album (Perfil_username, Album_idAlbum, nota, faixaFavorita) " +
+                "VALUES (?, ?, ?, ?) ON DUPLICATE KEY UPDATE nota = VALUES(nota)";
         try {
             pst = con.prepareStatement(sql);
             pst.setString(1, username);
             pst.setInt(2, idAlbum);
             pst.setDouble(3, nota);
+            pst.setString(4, faixaFavorita);
             pst.execute();
             sucesso = true;
         } catch (SQLException exc) {
-            System.out.println("Não foi possivel avaliar o album");
+            System.out.println(exc.getMessage());
             sucesso = false;
         } finally {
             try {
@@ -66,7 +67,7 @@ public class Perfil_avalia_AlbumDAO extends ConnectionDAO{
         ArrayList<Album> albunsAvaliados = new ArrayList<>();
         connectToDB();
 
-        String sql = "SELECT a.idAlbum, a.nome, a.generoMusical, p.nota FROM Album a " +
+        String sql = "SELECT a.idAlbum, a.nome, a.generoMusical, p.nota, p.faixaFavorita FROM Album a " +
                 "JOIN Perfil_avalia_Album p ON a.idAlbum = p.Album_idAlbum " +
                 "WHERE p.Perfil_username = ?";
 
@@ -80,8 +81,9 @@ public class Perfil_avalia_AlbumDAO extends ConnectionDAO{
                 String nome = rs.getString("nome");
                 String generoMusical = rs.getString("generoMusical");
                 double nota = rs.getDouble("nota");
+                String faixaFavorita = rs.getString("faixaFavorita");
 
-                Album album = new Album(idAlbum, nome, generoMusical, nota);
+                Album album = new Album(idAlbum, nome, generoMusical, nota, faixaFavorita);
                 albunsAvaliados.add(album);
             }
             sucesso = true;

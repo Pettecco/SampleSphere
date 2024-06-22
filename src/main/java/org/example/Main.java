@@ -114,8 +114,10 @@ public class Main {
                     System.out.println("Qual nota voce da para o album? (0.0 - 10.0)");
                     double nota = entrada.nextDouble();
                     entrada.nextLine();
+                    System.out.println("Qual sua faixa favorita?");
+                    String faixaFavorita = entrada.nextLine();
                     try{
-                        if(perfil_avalia_albumDAO.avaliarAlbum(usernameAvalia, idAlbumParaAvaliar, nota)){
+                        if(perfil_avalia_albumDAO.avaliarAlbum(usernameAvalia, idAlbumParaAvaliar, nota, faixaFavorita)){
                             System.out.println("Album avaliado com sucesso!");
                         } else{
                             System.out.println("Usurname não cadastrado");
@@ -137,6 +139,8 @@ public class Main {
                         System.out.println("Álbuns avaliados pelo usuário: " + usernameListar);
                         for (Album album : albunsAvaliados) {
                             System.out.println("Nome: " + album.getNome() + ", Gênero: " + album.getGeneroMusical() + ", Nota: " + album.getNota());
+                            System.out.println("Faixa favorita: " + album.getFaixaFavorita());
+                            System.out.println("----------------------------------");
                         }
                     }
                     break;
